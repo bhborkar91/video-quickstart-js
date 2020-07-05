@@ -16,6 +16,22 @@ const { jwt: { AccessToken } } = require('twilio');
 
 const VideoGrant = AccessToken.VideoGrant;
 
+console.log("Hello");
+console.log(process.env.VCAP_SERVICES);
+if (process.env.VCAP_SERVICES) {
+    var env = JSON.parse(process.env.VCAP_SERVICES);
+    var local_creds = env['user-provided'][0].credentials;
+    var accountSid = local_creds.twilio_account_sid;
+    var apiKey = local_creds.twilio_api_key;
+    var apiSecret = local_creds.twilio_api_secret;
+} else {
+    var accountSid = process.env.TWILIO_ACCOUNT_SID;
+    var apiKey = process.env.TWILIO_API_KEY;
+    var apiSecret = process.env.TWILIO_API_SECRET;
+}
+
+
+
 // Max. period that a Participant is allowed to be in a Room (currently 14400 seconds or 4 hours)
 const MAX_ALLOWED_SESSION_DURATION = 14400;
 
@@ -68,9 +84,9 @@ app.get('/token', function(request, response) {
   // Create an access token which we will sign and return to the client,
   // containing the grant we just created.
   const token = new AccessToken(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_API_KEY,
-    process.env.TWILIO_API_SECRET,
+    accountSid,
+    apiKey,
+    apiSecret,
     { ttl: MAX_ALLOWED_SESSION_DURATION }
   );
 

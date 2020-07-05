@@ -1,0 +1,4 @@
+applications:
+- name: ibm-cloud-quickstart
+  random-route: true
+  memory: 256M
