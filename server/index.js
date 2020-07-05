@@ -16,8 +16,6 @@ const { jwt: { AccessToken } } = require('twilio');
 
 const VideoGrant = AccessToken.VideoGrant;
 
-console.log("Hello");
-console.log(process.env.VCAP_SERVICES);
 if (process.env.VCAP_SERVICES) {
     var env = JSON.parse(process.env.VCAP_SERVICES);
     var local_creds = env['user-provided'][0].credentials;
